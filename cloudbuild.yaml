@@ -3,16 +3,16 @@
 steps:
   # Build and tag using commit sha
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/qwiklabs-gcp-02-dd99dbc471ed/pop-stats/pop-stats:${COMMIT_SHA}', '-f', 'Dockerfile']
+    args: ['build', '.', '-t', 'us-central1-docker.pkg.dev/qwiklabs-gcp-03-b6c3e769c93d/pop-stats/pop-stats:${COMMIT_SHA}', '-f', 'Dockerfile']
     dir: 'app'
   # Run api tests
-  - name: 'us-east1-docker.pkg.dev/qwiklabs-gcp-02-dd99dbc471ed/pop-stats/pop-stats:${COMMIT_SHA}'
+  - name: 'us-east1-docker.pkg.dev/qwiklabs-gcp-03-b6c3e769c93d/pop-stats/pop-stats:${COMMIT_SHA}'
     entrypoint: python
     args: ["api_tests.py"]
     dir: 'app'
   # Push the container image to Artifact Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/pop-stats/pop-stats:${COMMIT_SHA}']
+    args: ['push', 'us-east1-docker.pkg.dev/qwiklabs-gcp-03-b6c3e769c93d/pop-stats/pop-stats:${COMMIT_SHA}']
   # Create release in Google Cloud Deploy
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
     entrypoint: gcloud
@@ -22,10 +22,10 @@ steps:
         "--delivery-pipeline", "pop-stats-pipeline",
         "--region", "us-east1",
         "--annotations", "commitId=${REVISION_ID}",
-        "--images", "pop-stats=us-east1-docker.pkg.dev/qwiklabs-gcp-02-dd99dbc471ed/pop-stats/pop-stats:${COMMIT_SHA}"
+        "--images", "pop-stats=us-east1-docker.pkg.dev/qwiklabs-gcp-03-b6c3e769c93d/pop-stats/pop-stats:${COMMIT_SHA}"
       ]
 images:
-- us-east1-docker.pkg.dev/qwiklabs-gcp-02-dd99dbc471ed/pop-stats/pop-stats:${COMMIT_SHA}
+- us-east1-docker.pkg.dev/qwiklabs-gcp-03-b6c3e769c93d/pop-stats/pop-stats:${COMMIT_SHA}
 options:
   requestedVerifyOption: VERIFIED
     
